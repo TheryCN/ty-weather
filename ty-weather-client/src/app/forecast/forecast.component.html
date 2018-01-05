@@ -1,5 +1,5 @@
 <div>
-  <h2>{{ forecast.temp }}°C on {{ forecast.date }}</h2>
-  <div><span>min: </span>{{forecast.tempMin}}</div>
-  <div><span>max: </span>{{forecast.tempMax}}</div>
+  <h2>{{ forecast.temp | number : '1.1-1' }}°C on {{ forecast.date }}</h2>
+  <div><span>min: </span>{{ forecast.tempMin | number : '1.1-1' }}</div>
+  <div><span>max: </span>{{ forecast.tempMax | number : '1.1-1' }}</div>
 </div>
