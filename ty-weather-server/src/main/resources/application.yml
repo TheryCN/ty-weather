@@ -1,0 +1,24 @@
+# OAuth2 without spring boot example (RedirectView)
+# https://github.com/a2cart/google-calendar-api/blob/master/src/main/java/com/api/controllers/GoogleCalController.java
+
+# OAuth2 with Spring Boot
+security:
+  oauth2:
+    client:
+      clientId: {CLIENT_ID}
+      clientSecret: {CLIENT_SECRET}
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
+        - https://www.googleapis.com/auth/calendar
+    resource:
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      preferTokenInfo: true
+      
+weather:
+  calendar:
+    summary: TY Weather
