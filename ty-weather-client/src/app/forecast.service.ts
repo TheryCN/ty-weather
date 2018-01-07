@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ForecastService {
 
-  private forecastUrl = '/weather-forecast/forecast';
+  private forecastUrl = '/api/weather-forecast/forecast';
 
   constructor(private http: HttpClient) { }
 

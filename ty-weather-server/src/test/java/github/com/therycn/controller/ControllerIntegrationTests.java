@@ -58,7 +58,7 @@ public class ControllerIntegrationTests {
 
         // When
         ResponseEntity<WeatherForecastView[]> response = restTemplate.getForEntity(
-                "/weather-forecast/forecast?city={city}&countryCode={countryCode}", WeatherForecastView[].class,
+                "/api/weather-forecast/forecast?city={city}&countryCode={countryCode}", WeatherForecastView[].class,
                 cityName, countryCode);
 
         // Then

@@ -20,7 +20,7 @@ import github.com.therycn.service.calendar.WeatherUpdateService;
  *
  */
 @RestController
-@RequestMapping("/calendar")
+@RequestMapping("/api/calendar")
 public class CalendarController {
 
     private CalendarService calendarService;
@@ -29,8 +29,8 @@ public class CalendarController {
 
     private OAuth2ClientContext context;
 
-    public CalendarController(CalendarService calendarService,
-            WeatherUpdateService weatherCalendarUpdateService, OAuth2ClientContext context) {
+    public CalendarController(CalendarService calendarService, WeatherUpdateService weatherCalendarUpdateService,
+            OAuth2ClientContext context) {
         this.calendarService = calendarService;
         this.weatherCalendarUpdateService = weatherCalendarUpdateService;
         this.context = context;

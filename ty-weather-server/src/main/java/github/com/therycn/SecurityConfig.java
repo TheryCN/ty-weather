@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/calendar/**").authenticated().anyRequest().permitAll();
+        http.authorizeRequests().antMatchers("/api/calendar/**").authenticated().anyRequest().permitAll();
     }
 
 }
