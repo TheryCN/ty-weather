@@ -1,4 +1,7 @@
-<ul class="heroes">
+<ul>
+    
+  <p-growl [(value)]="msgs"></p-growl>
+    
   <li *ngFor="let forecast of forecastList">
     <app-forecast [forecast]="forecast"></app-forecast>
   </li>

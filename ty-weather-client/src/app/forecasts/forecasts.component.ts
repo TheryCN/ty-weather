@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+import {Message} from 'primeng/components/common/api';
+
 import { ForecastService } from '../forecast.service';
 import { Forecast } from '../forecast';
-import { Observable } from 'rxjs/Observable';
+
 
 @Component({
   selector: 'app-forecasts',
@@ -12,6 +15,8 @@ import { Observable } from 'rxjs/Observable';
 export class ForecastsComponent implements OnInit {
 
   forecastList: Forecast[] = [];
+  
+  msgs: Message[] = [];
 
   constructor(private forecastService: ForecastService) { }
 
@@ -20,7 +25,12 @@ export class ForecastsComponent implements OnInit {
   }
 
   getForecastList(): void {
-    this.forecastService.getForecastList().subscribe(forecastList => this.forecastList = forecastList);
+    this.forecastService.getForecastList().subscribe(forecastList => this.forecastListCallback(forecastList));
+  },
+  
+  forecastListCallback(forecastList): void {
+    this.forecastList = forecastList;
+    this.msgs.push({severity:'info', summary:'Loading succed!', detail:'Forecasts available'});
   }
 
 }
