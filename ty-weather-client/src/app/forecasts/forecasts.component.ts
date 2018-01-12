@@ -6,7 +6,6 @@ import {Message} from 'primeng/components/common/api';
 import { ForecastService } from '../forecast.service';
 import { Forecast } from '../forecast';
 
-
 @Component({
   selector: 'app-forecasts',
   templateUrl: './forecasts.component.html',
@@ -26,7 +25,7 @@ export class ForecastsComponent implements OnInit {
 
   getForecastList(): void {
     this.forecastService.getForecastList().subscribe(forecastList => this.forecastListCallback(forecastList));
-  },
+  }
   
   forecastListCallback(forecastList): void {
     this.forecastList = forecastList;

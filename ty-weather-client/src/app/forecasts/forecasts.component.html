@@ -2,7 +2,9 @@
     
   <p-growl [(value)]="msgs"></p-growl>
     
-  <li *ngFor="let forecast of forecastList">
-    <app-forecast [forecast]="forecast"></app-forecast>
-  </li>
+  <app-calendar-update class="ui-g-12"></app-calendar-update>
+
+  <div *ngFor="let forecast of forecastList">
+    <app-forecast class="ui-g-4" [forecast]="forecast"></app-forecast>
+  </div>
 </ul>
