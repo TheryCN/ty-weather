@@ -9,14 +9,19 @@ import { MessageService } from 'primeng/components/common/messageservice';
 })
 export class CalendarUpdateComponent implements OnInit {
 
+  isLoading:boolean;
+
   constructor(private calendarService: CalendarService, private messageService: MessageService) { }
 
   ngOnInit() {
+    this.isLoading = false;
   }
   
   update() {
+    this.isLoading = true;
     this.calendarService.updateWeatherCalendar().subscribe(data => {
         this.messageService.add({severity:'success', summary:'Weather calendar update success !'});
+        this.isLoading = false;
     })
   }
 
