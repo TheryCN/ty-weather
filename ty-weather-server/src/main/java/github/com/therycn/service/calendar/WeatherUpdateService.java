@@ -14,7 +14,6 @@ import com.google.api.services.calendar.model.EventDateTime;
 
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.service.weather.WeatherService;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Calendar weather update service.
@@ -23,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Service
-@Slf4j
 public class WeatherUpdateService {
 
 	private CalendarService calendarService;
