@@ -26,14 +26,14 @@ import github.com.therycn.exception.ClientFailureException;
 import github.com.therycn.service.weather.OpenWeatherMapClient;
 
 /**
- * Controller IT Tests.
+ * Weather forecast integration tests.
  * 
  * @author TheryLeopard
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ControllerIntegrationTests {
+public class WeatherForecastControllerIT {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
