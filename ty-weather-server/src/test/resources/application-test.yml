@@ -16,7 +16,7 @@ security:
         - profile
         - https://www.googleapis.com/auth/calendar
     resource:
-      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      userInfoUri: http://localhost:8080/principal
       preferTokenInfo: true
       
 weather:
@@ -25,4 +25,5 @@ weather:
 
 logging:
   level:
-    ROOT: WARN
+    ROOT: INFO
+    org.springframework.security: DEBUG
