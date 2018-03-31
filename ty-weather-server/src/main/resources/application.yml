@@ -2,6 +2,7 @@
 # https://github.com/a2cart/google-calendar-api/blob/master/src/main/java/com/api/controllers/GoogleCalController.java
 
 # OAuth2 with Spring Boot
+# Get clientId and clientSecret at https://console.cloud.google.com/apis
 security:
   oauth2:
     client:
@@ -23,6 +24,10 @@ weather:
   calendar:
     summary: TY Weather
 
+server:
+  port: 8080
+  contextPath: /api
+
 logging:
   level:
-    ROOT: WARN
+    ROOT: INFO

@@ -16,7 +16,7 @@ export class CalendarUpdateComponent implements OnInit {
   ngOnInit() {
     this.isLoading = false;
   }
-  
+
   update() {
     this.isLoading = true;
     this.calendarService.updateWeatherCalendar().subscribe(data => {

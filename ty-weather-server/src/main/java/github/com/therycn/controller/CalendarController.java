@@ -20,49 +20,49 @@ import github.com.therycn.service.calendar.WeatherUpdateService;
  *
  */
 @RestController
-@RequestMapping("/api/calendar")
+@RequestMapping("/calendar")
 public class CalendarController {
 
-    private CalendarService calendarService;
+	private CalendarService calendarService;
 
-    private WeatherUpdateService weatherCalendarUpdateService;
+	private WeatherUpdateService weatherCalendarUpdateService;
 
-    private OAuth2ClientContext context;
+	private OAuth2ClientContext context;
 
-    public CalendarController(CalendarService calendarService, WeatherUpdateService weatherCalendarUpdateService,
-            OAuth2ClientContext context) {
-        this.calendarService = calendarService;
-        this.weatherCalendarUpdateService = weatherCalendarUpdateService;
-        this.context = context;
-    }
+	public CalendarController(CalendarService calendarService, WeatherUpdateService weatherCalendarUpdateService,
+			OAuth2ClientContext context) {
+		this.calendarService = calendarService;
+		this.weatherCalendarUpdateService = weatherCalendarUpdateService;
+		this.context = context;
+	}
 
-    /**
-     * Gets upcoming events.
-     * 
-     * @return {@link Event} list
-     * @throws IOException
-     */
-    @RequestMapping(value = "/events")
-    public List<Event> getUpcomingEvents() {
-        RestPreconditions.checkActiveGoogleAuth(context);
-        return calendarService.getUpcomingEvents();
-    }
+	/**
+	 * Gets upcoming events.
+	 * 
+	 * @return {@link Event} list
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/events")
+	public List<Event> getUpcomingEvents() {
+		RestPreconditions.checkActiveGoogleAuth(context);
+		return calendarService.getUpcomingEvents();
+	}
 
-    /**
-     * Updates weather calendar.
-     * 
-     * @param city
-     *            the city
-     * @param countryCode
-     *            the country code
-     * @return {@link Event} list
-     * @throws IOException
-     */
-    @RequestMapping(value = "/update-weather")
-    public List<Event> updateCalendarWeather(@RequestParam(value = "city", defaultValue = "Grenoble") String city,
-            @RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
-        RestPreconditions.checkActiveGoogleAuth(context);
-        return weatherCalendarUpdateService.update(city, countryCode);
-    }
+	/**
+	 * Updates weather calendar.
+	 * 
+	 * @param city
+	 *            the city
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link Event} list
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/update-weather")
+	public List<Event> updateCalendarWeather(@RequestParam(value = "city", defaultValue = "Grenoble") String city,
+			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
+		RestPreconditions.checkActiveGoogleAuth(context);
+		return weatherCalendarUpdateService.update(city, countryCode);
+	}
 
 }
