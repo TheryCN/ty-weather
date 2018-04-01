@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import github.com.therycn.entity.WeatherForecastView;
+import github.com.therycn.entity.openweather.CurrentWeatherResponse;
 import github.com.therycn.service.weather.WeatherService;
 
 /**
@@ -17,8 +18,8 @@ import github.com.therycn.service.weather.WeatherService;
  *
  */
 @RestController
-@RequestMapping("/weather-forecast")
-public class WeatherForecastController {
+@RequestMapping("/weather")
+public class WeatherController {
 
 	private WeatherService weatherService;
 
@@ -28,8 +29,24 @@ public class WeatherForecastController {
 	 * @param weatherService
 	 *            {@link WeatherService}
 	 */
-	public WeatherForecastController(WeatherService weatherService) {
+	public WeatherController(WeatherService weatherService) {
 		this.weatherService = weatherService;
+	}
+
+	/**
+	 * Gets the current weather for the given city & country.
+	 * 
+	 * @param city
+	 *            the city
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link CurrentWeatherResponse}
+	 */
+	@RequestMapping(value = "/current")
+	public CurrentWeatherResponse getCurrentWeather(
+			@RequestParam(value = "city", defaultValue = "Grenoble") String city,
+			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
+		return weatherService.getCurrentWeather(city, countryCode);
 	}
 
 	/**

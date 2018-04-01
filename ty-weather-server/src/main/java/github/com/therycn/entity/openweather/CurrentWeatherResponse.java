@@ -1,6 +1,9 @@
 package github.com.therycn.entity.openweather;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -20,8 +23,9 @@ public class CurrentWeatherResponse {
 	/** coord */
 	private Coordinate coord;
 
-	/** weather */
-	private Weather weather;
+	/** weather (more info Weather condition codes) */
+	@JsonProperty("weather")
+	private List<Weather> weatherList;
 
 	/** main */
 	private Main main;

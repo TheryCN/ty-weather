@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import github.com.therycn.entity.WeatherForecastView;
+import github.com.therycn.entity.openweather.CurrentWeatherResponse;
 import github.com.therycn.entity.openweather.Forecast;
 import github.com.therycn.entity.openweather.WeatherForecastResponse;
 
@@ -24,6 +25,18 @@ public class OpenWeatherMapServiceImpl implements WeatherService {
 
 	@Autowired
 	private OpenWeatherMapClient client;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * github.com.therycn.service.weather.WeatherService#getCurrentWeather(java.lang
+	 * .String, java.lang.String)
+	 */
+	@Override
+	public CurrentWeatherResponse getCurrentWeather(String city, String countryCode) {
+		return client.getCurrentWeather(city, countryCode);
+	}
 
 	/*
 	 * (non-Javadoc)
