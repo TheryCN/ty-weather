@@ -5,25 +5,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
- * OpenWeatherMap City.
+ * Current Weather Response.
  * 
- * @author TheryLeopard
+ * @author THERY
  *
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class City {
+public class CurrentWeatherResponse {
 
-	/** city.id City ID */
-	private Long id;
-
-	/** city.name City name */
+	/** name City name */
 	private String name;
 
-	/** city.coord */
+	/** coord */
 	private Coordinate coord;
 
-	/** city.country Country code (GB, JP etc.) */
-	private String country;
+	/** weather */
+	private Weather weather;
+
+	/** main */
+	private Main main;
+
+	/** wind */
+	private Wind wind;
 
 }

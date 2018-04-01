@@ -99,7 +99,7 @@ public class WeatherForecastControllerIT {
 				getClass().getClassLoader().getResourceAsStream("data/forecast_grenoble_fr.json"),
 				WeatherForecastResponse.class);
 
-		given(client.getForecast(cityName, countryCode)).willReturn(forecastResponse);
+		given(client.getFiveDaysPerThreeHoursForecast(cityName, countryCode)).willReturn(forecastResponse);
 	}
 
 }

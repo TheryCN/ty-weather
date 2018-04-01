@@ -9,6 +9,7 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import github.com.therycn.entity.openweather.CurrentWeatherResponse;
 import github.com.therycn.entity.openweather.WeatherForecastResponse;
 import github.com.therycn.exception.ClientFailureException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,37 +24,67 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OpenWeatherMapClient {
 
-    @Value("${app.id}")
-    private String appId;
+	@Value("${app.id}")
+	private String appId;
 
-    @Value("${api.forecast.query}")
-    private String apiForecastQuery;
+	@Value("${api.forecast.query}")
+	private String apiForecastQuery;
 
-    private RestTemplate restTemplate;
+	@Value("${api.currentWeather.query}")
+	private String apiCurrentWeatherQuery;
 
-    public OpenWeatherMapClient(RestTemplateBuilder restTemplateBuilder) {
-        restTemplate = restTemplateBuilder.build();
-    }
+	@Value("${api.units}")
+	private String units;
 
-    /**
-     * Retrieve forecast data (5 day / 3 hour).
-     * 
-     * @param city
-     *            the city name
-     * @param countryCode
-     *            the country code
-     * @return {@link WeatherForecastResponse}
-     */
-    public WeatherForecastResponse getForecast(String city, String countryCode) {
-        URI targetUrl = UriComponentsBuilder.fromUriString(apiForecastQuery).queryParam("q", city + "," + countryCode)
-                .queryParam("APPID", appId).build().toUri();
+	private RestTemplate restTemplate;
 
-        try {
-            return restTemplate.getForObject(targetUrl, WeatherForecastResponse.class);
-        } catch (RestClientResponseException e) {
-            log.warn(e.getMessage(), e);
-            throw new ClientFailureException(e.getMessage(), e);
-        }
+	public OpenWeatherMapClient(RestTemplateBuilder restTemplateBuilder) {
+		restTemplate = restTemplateBuilder.build();
+	}
 
-    }
+	/**
+	 * Retrieve current weather data.
+	 * 
+	 * @param city
+	 *            the city name
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link CurrentWeatherResponse}
+	 */
+	public CurrentWeatherResponse getCurrentWeather(String city, String countryCode) {
+		URI targetUrl = getTargetUrl(apiCurrentWeatherQuery, city, countryCode);
+
+		try {
+			return restTemplate.getForObject(targetUrl, CurrentWeatherResponse.class);
+		} catch (RestClientResponseException e) {
+			log.warn(e.getMessage(), e);
+			throw new ClientFailureException(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Retrieve forecast data (5 day / 3 hour).
+	 * 
+	 * @param city
+	 *            the city name
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link WeatherForecastResponse}
+	 */
+	public WeatherForecastResponse getFiveDaysPerThreeHoursForecast(String city, String countryCode) {
+		URI targetUrl = getTargetUrl(apiForecastQuery, city, countryCode);
+
+		try {
+			return restTemplate.getForObject(targetUrl, WeatherForecastResponse.class);
+		} catch (RestClientResponseException e) {
+			log.warn(e.getMessage(), e);
+			throw new ClientFailureException(e.getMessage(), e);
+		}
+
+	}
+
+	private URI getTargetUrl(String query, String city, String countryCode) {
+		return UriComponentsBuilder.fromUriString(query).queryParam("units", units)
+				.queryParam("q", city + "," + countryCode).queryParam("APPID", appId).build().toUri();
+	}
 }

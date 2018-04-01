@@ -63,7 +63,7 @@ public class OpenWeatherMapServiceImplTest {
         WeatherForecastResponse clientResponse = mock(WeatherForecastResponse.class);
         when(clientResponse.getForecastList()).thenReturn(Arrays.asList(forecast));
 
-        when(client.getForecast(Mockito.anyString(), Mockito.anyString())).thenReturn(clientResponse);
+        when(client.getFiveDaysPerThreeHoursForecast(Mockito.anyString(), Mockito.anyString())).thenReturn(clientResponse);
 
         // When
         List<WeatherForecastView> forecastViewList = service.getForecast("Grenoble", "FR");

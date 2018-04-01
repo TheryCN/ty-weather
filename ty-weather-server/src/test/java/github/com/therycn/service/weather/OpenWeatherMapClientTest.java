@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import github.com.therycn.entity.openweather.City;
 import github.com.therycn.entity.openweather.WeatherForecastResponse;
 import github.com.therycn.exception.ClientFailureException;
-import github.com.therycn.service.weather.OpenWeatherMapClient;
 
 /**
  * Open weather map client test.
@@ -54,7 +53,7 @@ public class OpenWeatherMapClientTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetForecastServerOK() throws Exception {
+	public void testGetFiveDaysPerThreeHoursForecastServerOK() throws Exception {
 		// Given
 		WeatherForecastResponse expectedResponse = new WeatherForecastResponse();
 		expectedResponse.setCity(new City());
@@ -64,7 +63,7 @@ public class OpenWeatherMapClientTest {
 				.andRespond(withSuccess(mapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
 
 		// When
-		WeatherForecastResponse response = client.getForecast("Grenoble", "FR");
+		WeatherForecastResponse response = client.getFiveDaysPerThreeHoursForecast("Grenoble", "FR");
 
 		// Then
 		assertThat(response).isEqualTo(expectedResponse);
@@ -76,14 +75,14 @@ public class OpenWeatherMapClientTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetForecastServerError() throws Exception {
+	public void testGetFiveDaysPerThreeHoursForecastServerError() throws Exception {
 		// Given
 		expectedEx.expect(ClientFailureException.class);
 
 		server.expect(requestTo(Matchers.startsWith(apiForecastQuery))).andRespond(withServerError());
 
 		// When
-		client.getForecast("Grenoble", "FR");
+		client.getFiveDaysPerThreeHoursForecast("Grenoble", "FR");
 
 		// Then - expectedEx
 	}

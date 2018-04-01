@@ -17,8 +17,10 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherForecastResponse {
 
+	/** city */
 	private City city;
 
+	/** list */
 	@JsonProperty("list")
 	private List<Forecast> forecastList;
 }
