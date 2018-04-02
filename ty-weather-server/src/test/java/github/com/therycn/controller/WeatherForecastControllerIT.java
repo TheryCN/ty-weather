@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import github.com.therycn.entity.WeatherForecastView;
-import github.com.therycn.entity.openweather.WeatherForecastResponse;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.exception.ClientFailureException;
 import github.com.therycn.service.weather.OpenWeatherMapClient;
 
@@ -95,9 +95,9 @@ public class WeatherForecastControllerIT {
 	}
 
 	private void mockForecastClient(String cityName, String countryCode) throws IOException, ClientFailureException {
-		WeatherForecastResponse forecastResponse = objectMapper.readValue(
+		WeatherForecasts forecastResponse = objectMapper.readValue(
 				getClass().getClassLoader().getResourceAsStream("data/forecast_grenoble_fr.json"),
-				WeatherForecastResponse.class);
+				WeatherForecasts.class);
 
 		given(client.getFiveDaysPerThreeHoursForecast(cityName, countryCode)).willReturn(forecastResponse);
 	}

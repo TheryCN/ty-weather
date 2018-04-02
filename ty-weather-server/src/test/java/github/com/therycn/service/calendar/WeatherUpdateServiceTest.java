@@ -63,7 +63,7 @@ public class WeatherUpdateServiceTest {
         when(forecast.getDate()).thenReturn(Date.from(LocalDateTime.of(2018, 1, 4, 18, 0).toInstant(ZoneOffset.UTC)));
         when(forecast.getTemp()).thenReturn(5d);
 
-        when(weatherService.getForecast(CITY, COUNTRYCODE)).thenReturn(Arrays.asList(forecast));
+        when(weatherService.getWeatherForecastView(CITY, COUNTRYCODE)).thenReturn(Arrays.asList(forecast));
 
         when(calendarService.findCalendarIdBySummary(anyString())).thenReturn(null);
         when(calendarService.addCalendar(anyString())).thenReturn(WEATHER_CALENDAR_ID);
@@ -96,7 +96,7 @@ public class WeatherUpdateServiceTest {
                 .thenReturn(Date.from(LocalDateTime.of(2018, 1, 4, 19, 0).toInstant(ZoneOffset.UTC)));
         when(nextForecast.getTemp()).thenReturn(5d);
 
-        when(weatherService.getForecast(CITY, COUNTRYCODE)).thenReturn(Arrays.asList(forecast, nextForecast));
+        when(weatherService.getWeatherForecastView(CITY, COUNTRYCODE)).thenReturn(Arrays.asList(forecast, nextForecast));
 
         when(calendarService.findCalendarIdBySummary(anyString())).thenReturn(WEATHER_CALENDAR_ID);
 

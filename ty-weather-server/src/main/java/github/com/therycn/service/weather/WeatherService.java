@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import github.com.therycn.entity.WeatherForecastView;
-import github.com.therycn.entity.openweather.CurrentWeatherResponse;
+import github.com.therycn.entity.openweather.CurrentWeather;
 
 /**
  * Weather Service.
@@ -23,9 +23,9 @@ public interface WeatherService {
 	 *            the city
 	 * @param countryCode
 	 *            the country code
-	 * @return {@link CurrentWeatherResponse}
+	 * @return {@link CurrentWeather}
 	 */
-	CurrentWeatherResponse getCurrentWeather(String city, String countryCode);
+	CurrentWeather getCurrentWeather(String city, String countryCode);
 
 	/**
 	 * Gets the forecast for the given city & country.
@@ -36,5 +36,5 @@ public interface WeatherService {
 	 *            the country code
 	 * @return {@link WeatherForecastView} list
 	 */
-	List<WeatherForecastView> getForecast(String city, String countryCode);
+	List<WeatherForecastView> getWeatherForecastView(String city, String countryCode);
 }

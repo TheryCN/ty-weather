@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import github.com.therycn.entity.WeatherForecastView;
-import github.com.therycn.entity.openweather.CurrentWeatherResponse;
+import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.service.weather.WeatherService;
 
 /**
@@ -40,10 +40,10 @@ public class WeatherController {
 	 *            the city
 	 * @param countryCode
 	 *            the country code
-	 * @return {@link CurrentWeatherResponse}
+	 * @return {@link CurrentWeather}
 	 */
 	@RequestMapping(value = "/current")
-	public CurrentWeatherResponse getCurrentWeather(
+	public CurrentWeather getCurrentWeather(
 			@RequestParam(value = "city", defaultValue = "Grenoble") String city,
 			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
 		return weatherService.getCurrentWeather(city, countryCode);
@@ -62,7 +62,7 @@ public class WeatherController {
 	public List<WeatherForecastView> getWeatherForecastView(
 			@RequestParam(value = "city", defaultValue = "Grenoble") String city,
 			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
-		return weatherService.getForecast(city, countryCode);
+		return weatherService.getWeatherForecastView(city, countryCode);
 	}
 
 	/**

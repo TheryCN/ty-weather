@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import github.com.therycn.entity.WeatherForecastView;
-import github.com.therycn.entity.openweather.CurrentWeatherResponse;
+import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.Forecast;
-import github.com.therycn.entity.openweather.WeatherForecastResponse;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 
 /**
  * Weather Service Impl.
@@ -34,7 +34,7 @@ public class OpenWeatherMapServiceImpl implements WeatherService {
 	 * .String, java.lang.String)
 	 */
 	@Override
-	public CurrentWeatherResponse getCurrentWeather(String city, String countryCode) {
+	public CurrentWeather getCurrentWeather(String city, String countryCode) {
 		return client.getCurrentWeather(city, countryCode);
 	}
 
@@ -45,11 +45,11 @@ public class OpenWeatherMapServiceImpl implements WeatherService {
 	 * java.lang.String)
 	 */
 	@Override
-	public List<WeatherForecastView> getForecast(String city, String countryCode) {
+	public List<WeatherForecastView> getWeatherForecastView(String city, String countryCode) {
 		return toWeatherForecastViewList(client.getFiveDaysPerThreeHoursForecast(city, countryCode));
 	}
 
-	public List<WeatherForecastView> toWeatherForecastViewList(WeatherForecastResponse response) {
+	public List<WeatherForecastView> toWeatherForecastViewList(WeatherForecasts response) {
 		return response.getForecastList().stream().map(w -> toWeatherForecastView(w)).collect(Collectors.toList());
 	}
 

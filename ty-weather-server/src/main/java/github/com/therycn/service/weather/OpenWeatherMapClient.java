@@ -9,8 +9,8 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import github.com.therycn.entity.openweather.CurrentWeatherResponse;
-import github.com.therycn.entity.openweather.WeatherForecastResponse;
+import github.com.therycn.entity.openweather.CurrentWeather;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.exception.ClientFailureException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,13 +49,13 @@ public class OpenWeatherMapClient {
 	 *            the city name
 	 * @param countryCode
 	 *            the country code
-	 * @return {@link CurrentWeatherResponse}
+	 * @return {@link CurrentWeather}
 	 */
-	public CurrentWeatherResponse getCurrentWeather(String city, String countryCode) {
+	public CurrentWeather getCurrentWeather(String city, String countryCode) {
 		URI targetUrl = getTargetUrl(apiCurrentWeatherQuery, city, countryCode);
 
 		try {
-			return restTemplate.getForObject(targetUrl, CurrentWeatherResponse.class);
+			return restTemplate.getForObject(targetUrl, CurrentWeather.class);
 		} catch (RestClientResponseException e) {
 			log.warn(e.getMessage(), e);
 			throw new ClientFailureException(e.getMessage(), e);
@@ -69,13 +69,13 @@ public class OpenWeatherMapClient {
 	 *            the city name
 	 * @param countryCode
 	 *            the country code
-	 * @return {@link WeatherForecastResponse}
+	 * @return {@link WeatherForecasts}
 	 */
-	public WeatherForecastResponse getFiveDaysPerThreeHoursForecast(String city, String countryCode) {
+	public WeatherForecasts getFiveDaysPerThreeHoursForecast(String city, String countryCode) {
 		URI targetUrl = getTargetUrl(apiForecastQuery, city, countryCode);
 
 		try {
-			return restTemplate.getForObject(targetUrl, WeatherForecastResponse.class);
+			return restTemplate.getForObject(targetUrl, WeatherForecasts.class);
 		} catch (RestClientResponseException e) {
 			log.warn(e.getMessage(), e);
 			throw new ClientFailureException(e.getMessage(), e);

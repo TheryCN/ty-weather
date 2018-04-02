@@ -46,7 +46,7 @@ public class WeatherUpdateService {
 	 * @return {@link Event} list
 	 */
 	public List<Event> update(String city, String countryCode) {
-		List<WeatherForecastView> forecastList = weatherService.getForecast(city, countryCode);
+		List<WeatherForecastView> forecastList = weatherService.getWeatherForecastView(city, countryCode);
 
 		String weatherCalendarId = calendarService.findCalendarIdBySummary(weatherCalendarSummary);
 

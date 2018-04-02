@@ -20,7 +20,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import github.com.therycn.entity.openweather.City;
-import github.com.therycn.entity.openweather.WeatherForecastResponse;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.exception.ClientFailureException;
 
 /**
@@ -55,7 +55,7 @@ public class OpenWeatherMapClientTest {
 	@Test
 	public void testGetFiveDaysPerThreeHoursForecastServerOK() throws Exception {
 		// Given
-		WeatherForecastResponse expectedResponse = new WeatherForecastResponse();
+		WeatherForecasts expectedResponse = new WeatherForecasts();
 		expectedResponse.setCity(new City());
 		expectedResponse.getCity().setId(1l);
 		expectedResponse.getCity().setName("Grenoble");
@@ -63,7 +63,7 @@ public class OpenWeatherMapClientTest {
 				.andRespond(withSuccess(mapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
 
 		// When
-		WeatherForecastResponse response = client.getFiveDaysPerThreeHoursForecast("Grenoble", "FR");
+		WeatherForecasts response = client.getFiveDaysPerThreeHoursForecast("Grenoble", "FR");
 
 		// Then
 		assertThat(response).isEqualTo(expectedResponse);

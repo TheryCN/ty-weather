@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CurrentWeatherResponse {
+public class CurrentWeather {
 
 	/** name City name */
 	private String name;
