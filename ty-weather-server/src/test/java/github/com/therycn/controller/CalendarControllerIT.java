@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,7 @@ public class CalendarControllerIT {
 	 * @throws IOException
 	 * @throws ClientFailureException
 	 */
+	@Ignore
 	@Test
 	public void testGetUpcomingEvents() {
 		// Given
@@ -64,7 +66,7 @@ public class CalendarControllerIT {
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer xyz123");
 
 		// When
-		ResponseEntity<Event[]> response = testRestTemplate.exchange("/api/calendar/events", HttpMethod.GET,
+		ResponseEntity<Event[]> response = testRestTemplate.exchange("/calendar/events", HttpMethod.GET,
 				new HttpEntity<>(headers), Event[].class);
 
 		// Then

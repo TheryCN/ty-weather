@@ -32,44 +32,46 @@ import github.com.therycn.entity.openweather.WeatherForecasts;
 @RunWith(MockitoJUnitRunner.class)
 public class OpenWeatherMapServiceImplTest {
 
-    @Mock
-    private OpenWeatherMapClient client;
+	@Mock
+	private OpenWeatherMapClient client;
 
-    @InjectMocks
-    private OpenWeatherMapServiceImpl service;
+	@InjectMocks
+	private OpenWeatherMapServiceImpl service;
 
-    /**
-	     * Test {@link OpenWeatherMapServiceImpl#getWeatherForecastView(String, String)}.
-	     * Checks conversions between date & degree unit.
-	     */
-	    @Test
-	    public void testGetWeatherForecastView() {
-	        // Given
-	        Date expectedForecastDate = Date.from(LocalDateTime.of(2017, 12, 27, 18, 40).toInstant(ZoneOffset.UTC));
-	        WeatherForecastView expectedForecastView = new WeatherForecastView(5f, 0f, 10f, 20f, expectedForecastDate);
-	
-	        Main main = mock(Main.class);
-	        when(main.getHumidity()).thenReturn(20f);
-	        // Kelvin
-	        when(main.getTemp()).thenReturn(278.15f);
-	        when(main.getTempMin()).thenReturn(273.15f);
-	        when(main.getTempMax()).thenReturn(283.15f);
-	
-	        Forecast forecast = mock(Forecast.class);
-	        // UTC Wed Dec 27 2017 18:40:00
-	        when(forecast.getTime()).thenReturn(1514400000l);
-	        when(forecast.getMain()).thenReturn(main);
-	
-	        WeatherForecasts clientResponse = mock(WeatherForecasts.class);
-	        when(clientResponse.getForecastList()).thenReturn(Arrays.asList(forecast));
-	
-	        when(client.getFiveDaysPerThreeHoursForecast(Mockito.anyString(), Mockito.anyString())).thenReturn(clientResponse);
-	
-	        // When
-	        List<WeatherForecastView> forecastViewList = service.getWeatherForecastView("Grenoble", "FR");
-	
-	        // Then
-	        assertThat(forecastViewList.size(), IsEqual.equalTo(1));
-	        assertThat(forecastViewList.get(0), IsEqual.equalTo(expectedForecastView));
-	    }
+	/**
+	 * Test
+	 * {@link OpenWeatherMapServiceImpl#getWeatherForecastView(String, String)}.
+	 * Checks conversions between date & degree unit.
+	 */
+	@Test
+	public void testGetWeatherForecastView() {
+		// Given
+		Date expectedForecastDate = Date.from(LocalDateTime.of(2017, 12, 27, 18, 40).toInstant(ZoneOffset.UTC));
+		WeatherForecastView expectedForecastView = new WeatherForecastView(5f, 0f, 10f, 20f, expectedForecastDate);
+
+		Main main = mock(Main.class);
+		when(main.getHumidity()).thenReturn(20f);
+		// Kelvin
+		when(main.getTemp()).thenReturn(5.0f);
+		when(main.getTempMin()).thenReturn(0f);
+		when(main.getTempMax()).thenReturn(10f);
+
+		Forecast forecast = mock(Forecast.class);
+		// UTC Wed Dec 27 2017 18:40:00
+		when(forecast.getTime()).thenReturn(1514400000l);
+		when(forecast.getMain()).thenReturn(main);
+
+		WeatherForecasts clientResponse = mock(WeatherForecasts.class);
+		when(clientResponse.getForecastList()).thenReturn(Arrays.asList(forecast));
+
+		when(client.getFiveDaysPerThreeHoursForecast(Mockito.anyString(), Mockito.anyString()))
+				.thenReturn(clientResponse);
+
+		// When
+		List<WeatherForecastView> forecastViewList = service.getWeatherForecastView("Grenoble", "FR");
+
+		// Then
+		assertThat(forecastViewList.size(), IsEqual.equalTo(1));
+		assertThat(forecastViewList.get(0), IsEqual.equalTo(expectedForecastView));
+	}
 }

@@ -26,14 +26,14 @@ import github.com.therycn.exception.ClientFailureException;
 import github.com.therycn.service.weather.OpenWeatherMapClient;
 
 /**
- * Weather forecast integration tests.
+ * Weather integration tests.
  * 
  * @author TheryLeopard
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class WeatherForecastControllerIT {
+public class WeatherControllerIT {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -59,8 +59,8 @@ public class WeatherForecastControllerIT {
 
 		// When
 		ResponseEntity<WeatherForecastView[]> response = restTemplate.getForEntity(
-				"/api/weather-forecast/forecast?city={city}&countryCode={countryCode}", WeatherForecastView[].class,
-				cityName, countryCode);
+				"/weather/forecast?city={city}&countryCode={countryCode}", WeatherForecastView[].class, cityName,
+				countryCode);
 
 		// Then
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -82,12 +82,11 @@ public class WeatherForecastControllerIT {
 
 		mockForecastClient(cityName, countryCode);
 
-		double expected = -4.187541961669922d;
+		double expected = 268.96245193481445;
 
 		// When
 		ResponseEntity<Double> response = restTemplate.getForEntity(
-				"/api/weather-forecast/averageForecast?city={city}&countryCode={countryCode}", Double.class, cityName,
-				countryCode);
+				"/weather/averageForecast?city={city}&countryCode={countryCode}", Double.class, cityName, countryCode);
 
 		// Then
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
