@@ -1,14 +1,11 @@
 package github.com.therycn.service.weather;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import github.com.therycn.entity.TempAverager;
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.Forecast;
@@ -41,25 +38,38 @@ public class OpenWeatherMapServiceImpl implements WeatherService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see github.com.therycn.service.WeatherService#getForecast(java.lang.String,
-	 * java.lang.String)
+	 * @see
+	 * github.com.therycn.service.weather.WeatherService#getForecastByHours(java.
+	 * lang.String, java.lang.String)
 	 */
 	@Override
-	public List<WeatherForecastView> getWeatherForecastView(String city, String countryCode) {
-		return toWeatherForecastViewList(client.getFiveDaysPerThreeHoursForecast(city, countryCode));
+	public WeatherForecasts getForecastByHours(String city, String countryCode) {
+		return client.getFiveDaysPerThreeHoursForecast(city, countryCode);
 	}
 
-	public List<WeatherForecastView> toWeatherForecastViewList(WeatherForecasts response) {
-		return response.getForecastList().stream().map(w -> toWeatherForecastView(w)).collect(Collectors.toList());
-	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * github.com.therycn.service.weather.WeatherService#getWeatherForecastView(java
+	 * .lang.String, java.lang.String)
+	 */
+	@Override
+	public WeatherForecastView getWeatherForecastView(String city, String countryCode) {
+		WeatherForecasts forecasts = client.getFiveDaysPerThreeHoursForecast(city, countryCode);
+		List<Forecast> forecastList = forecasts.getForecastList();
 
-	private WeatherForecastView toWeatherForecastView(Forecast forecast) {
-		// Format date
-		LocalDateTime dateUtc = LocalDateTime.ofEpochSecond(forecast.getTime(), 0, ZoneOffset.UTC);
+		// Retrieve min & max values
+		double tempMin = forecastList.stream().mapToDouble(f -> f.getMain().getTempMin()).min().getAsDouble();
+		double tempMax = forecastList.stream().mapToDouble(f -> f.getMain().getTempMax()).max().getAsDouble();
 
-		return new WeatherForecastView(forecast.getMain().getTemp(), forecast.getMain().getTempMin(),
-				forecast.getMain().getTempMax(), forecast.getMain().getHumidity(),
-				Date.from(dateUtc.toInstant(ZoneOffset.UTC)));
+		// Reduce using TempAverager instead of doing 3 average on the same stream
+		TempAverager averager = forecastList.stream().map(f -> f.getMain())
+				.filter(main -> main.getTemp() > tempMin && main.getTemp() < tempMax)
+				.reduce(new TempAverager(), TempAverager::accept, TempAverager::combine);
+
+		return new WeatherForecastView(averager.getTempAvg(), tempMin, tempMax, averager.getHumidityAvg(),
+				averager.getPressureAvg());
 	}
 
 }

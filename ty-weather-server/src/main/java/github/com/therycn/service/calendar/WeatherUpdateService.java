@@ -12,7 +12,8 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 
-import github.com.therycn.entity.WeatherForecastView;
+import github.com.therycn.entity.openweather.Forecast;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.service.weather.WeatherService;
 
 /**
@@ -46,7 +47,7 @@ public class WeatherUpdateService {
 	 * @return {@link Event} list
 	 */
 	public List<Event> update(String city, String countryCode) {
-		List<WeatherForecastView> forecastList = weatherService.getWeatherForecastView(city, countryCode);
+		WeatherForecasts forecasts = weatherService.getForecastByHours(city, countryCode);
 
 		String weatherCalendarId = calendarService.findCalendarIdBySummary(weatherCalendarSummary);
 
@@ -59,26 +60,26 @@ public class WeatherUpdateService {
 		List<Event> upcomingEventList = calendarService.getUpcomingEvents(weatherCalendarId);
 
 		List<Event> eventList = new ArrayList<>();
-		for (WeatherForecastView forecast : forecastList) {
+		for (Forecast forecast : forecasts.getForecastList()) {
 			eventList.add(createOrUpdateEvent(forecast, upcomingEventList, weatherCalendarId));
 		}
 
 		return eventList;
 	}
 
-	private Event createOrUpdateEvent(WeatherForecastView forecast, List<Event> upcomingEventList,
-			String weatherCalendarId) {
+	private Event createOrUpdateEvent(Forecast forecast, List<Event> upcomingEventList, String weatherCalendarId) {
 		// Create event
-		Event event = new Event().setSummary(Math.round(forecast.getTemp() * 100) / 100 + "°C");
+		Event event = new Event().setSummary(Math.round(forecast.getMain().getTemp() * 100) / 100 + "°C");
 
-		EventDateTime start = new EventDateTime().setDateTime(new DateTime(forecast.getDate()));
+		long forecastMillisTime = forecast.getTime() * 1000;
+		EventDateTime start = new EventDateTime().setDateTime(new DateTime(forecastMillisTime));
 		event.setStart(start);
 
-		EventDateTime end = new EventDateTime().setDateTime(new DateTime(forecast.getDate()));
+		EventDateTime end = new EventDateTime().setDateTime(new DateTime(forecastMillisTime));
 		event.setEnd(end);
 
-		List<Event> existingEventsAtSameTime = upcomingEventList.stream().filter(
-				upcomingEvent -> upcomingEvent.getStart().getDateTime().getValue() == forecast.getDate().getTime())
+		List<Event> existingEventsAtSameTime = upcomingEventList.stream()
+				.filter(upcomingEvent -> upcomingEvent.getStart().getDateTime().getValue() == forecastMillisTime)
 				.collect(Collectors.toList());
 
 		if (!CollectionUtils.isEmpty(existingEventsAtSameTime)) {

@@ -1,14 +1,12 @@
 package github.com.therycn.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.service.weather.WeatherService;
 
 /**
@@ -43,10 +41,24 @@ public class WeatherController {
 	 * @return {@link CurrentWeather}
 	 */
 	@RequestMapping(value = "/current")
-	public CurrentWeather getCurrentWeather(
-			@RequestParam(value = "city", defaultValue = "Grenoble") String city,
+	public CurrentWeather getCurrentWeather(@RequestParam(value = "city", defaultValue = "Grenoble") String city,
 			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
 		return weatherService.getCurrentWeather(city, countryCode);
+	}
+
+	/**
+	 * Gets the forecast by hours.
+	 * 
+	 * @param city
+	 *            the city
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link WeatherForecasts}
+	 */
+	@RequestMapping(value = "/forecastByHours")
+	public WeatherForecasts getForecastByHours(@RequestParam(value = "city", defaultValue = "Grenoble") String city,
+			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
+		return weatherService.getForecastByHours(city, countryCode);
 	}
 
 	/**
@@ -59,26 +71,10 @@ public class WeatherController {
 	 * @return {@link WeatherForecastView} list
 	 */
 	@RequestMapping(value = "/forecast")
-	public List<WeatherForecastView> getWeatherForecastView(
+	public WeatherForecastView getWeatherForecastView(
 			@RequestParam(value = "city", defaultValue = "Grenoble") String city,
 			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
 		return weatherService.getWeatherForecastView(city, countryCode);
-	}
-
-	/**
-	 * Gets the average temperature calculated from the 3 days forecast.
-	 * 
-	 * @param city
-	 *            the city
-	 * @param countryCode
-	 *            the country code
-	 * @return the temperature
-	 */
-	@RequestMapping(value = "/averageForecast")
-	public double getWeatherAverageForecast(@RequestParam(value = "city", defaultValue = "Grenoble") String city,
-			@RequestParam(value = "countryCode", defaultValue = "FR") String countryCode) {
-		return getWeatherForecastView(city, countryCode).stream()
-				.collect(Collectors.averagingDouble(WeatherForecastView::getTemp));
 	}
 
 }

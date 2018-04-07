@@ -1,11 +1,10 @@
 package github.com.therycn.service.weather;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
+import github.com.therycn.entity.openweather.WeatherForecasts;
 
 /**
  * Weather Service.
@@ -28,13 +27,24 @@ public interface WeatherService {
 	CurrentWeather getCurrentWeather(String city, String countryCode);
 
 	/**
+	 * Gets the forecast by hours.
+	 * 
+	 * @param city
+	 *            the city
+	 * @param countryCode
+	 *            the country code
+	 * @return {@link WeatherForecasts}
+	 */
+	WeatherForecasts getForecastByHours(String city, String countryCode);
+
+	/**
 	 * Gets the forecast for the given city & country.
 	 * 
 	 * @param city
 	 *            the city
 	 * @param countryCode
 	 *            the country code
-	 * @return {@link WeatherForecastView} list
+	 * @return {@link WeatherForecastView}
 	 */
-	List<WeatherForecastView> getWeatherForecastView(String city, String countryCode);
+	WeatherForecastView getWeatherForecastView(String city, String countryCode);
 }

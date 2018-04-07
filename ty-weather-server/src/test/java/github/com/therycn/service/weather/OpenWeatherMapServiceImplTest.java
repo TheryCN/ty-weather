@@ -4,11 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -41,20 +37,18 @@ public class OpenWeatherMapServiceImplTest {
 	/**
 	 * Test
 	 * {@link OpenWeatherMapServiceImpl#getWeatherForecastView(String, String)}.
-	 * Checks conversions between date & degree unit.
 	 */
 	@Test
 	public void testGetWeatherForecastView() {
 		// Given
-		Date expectedForecastDate = Date.from(LocalDateTime.of(2017, 12, 27, 18, 40).toInstant(ZoneOffset.UTC));
-		WeatherForecastView expectedForecastView = new WeatherForecastView(5f, 0f, 10f, 20f, expectedForecastDate);
+		WeatherForecastView expectedForecastView = new WeatherForecastView(10d, 2d, 15d, 80d, 800d);
 
 		Main main = mock(Main.class);
-		when(main.getHumidity()).thenReturn(20f);
-		// Kelvin
-		when(main.getTemp()).thenReturn(5.0f);
-		when(main.getTempMin()).thenReturn(0f);
-		when(main.getTempMax()).thenReturn(10f);
+		when(main.getHumidity()).thenReturn(80f);
+		when(main.getTemp()).thenReturn(10f);
+		when(main.getTempMin()).thenReturn(2f);
+		when(main.getTempMax()).thenReturn(15f);
+		when(main.getPressure()).thenReturn(800f);
 
 		Forecast forecast = mock(Forecast.class);
 		// UTC Wed Dec 27 2017 18:40:00
@@ -68,10 +62,9 @@ public class OpenWeatherMapServiceImplTest {
 				.thenReturn(clientResponse);
 
 		// When
-		List<WeatherForecastView> forecastViewList = service.getWeatherForecastView("Grenoble", "FR");
+		WeatherForecastView forecastView = service.getWeatherForecastView("Grenoble", "FR");
 
 		// Then
-		assertThat(forecastViewList.size(), IsEqual.equalTo(1));
-		assertThat(forecastViewList.get(0), IsEqual.equalTo(expectedForecastView));
+		assertThat(forecastView, IsEqual.equalTo(expectedForecastView));
 	}
 }

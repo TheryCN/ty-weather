@@ -1,9 +1,5 @@
 package github.com.therycn.entity;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,19 +17,18 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class WeatherForecastView {
 
-    /** Temperature °C. */
-    private double temp;
+	/** Temperature ï¿½C. */
+	private double tempAvg;
 
-    /** Temperature min °C. */
-    private double tempMin;
+	/** Temperature min ï¿½C. */
+	private double tempMin;
 
-    /** Temperature max °C. */
-    private double tempMax;
+	/** Temperature max ï¿½C. */
+	private double tempMax;
 
-    /** Humidity (%). */
-    private double humidity;
+	/** Humidity (%). */
+	private double humidityAvg;
 
-    /** Formatted date in UTC. */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private Date date;
+	private double pressureAvg;
+
 }

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +33,10 @@ import github.com.therycn.service.weather.OpenWeatherMapClient;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class WeatherControllerIT {
 
+	private static final String COUNTRY_CODE = "FR";
+
+	private static final String CITY_NAME = "Grenoble";
+
 	@Autowired
 	private TestRestTemplate restTemplate;
 
@@ -44,53 +46,45 @@ public class WeatherControllerIT {
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	/**
-	 * Test retrieving forecast view from Grenoble.
+	 * Test retrieving forecast by hours from Grenoble.
 	 * 
 	 * @throws IOException
 	 * @throws ClientFailureException
 	 */
 	@Test
-	public void testGetForecastViewGrenoble() throws IOException, ClientFailureException {
+	public void testGetForecastByHours() throws IOException, ClientFailureException {
 		// Given
-		String cityName = "Grenoble";
-		String countryCode = "FR";
-
-		mockForecastClient(cityName, countryCode);
+		mockForecastClient(CITY_NAME, COUNTRY_CODE);
 
 		// When
-		ResponseEntity<WeatherForecastView[]> response = restTemplate.getForEntity(
-				"/weather/forecast?city={city}&countryCode={countryCode}", WeatherForecastView[].class, cityName,
-				countryCode);
+		ResponseEntity<WeatherForecasts> response = restTemplate.getForEntity(
+				"/weather/forecastByHours?city={city}&countryCode={countryCode}", WeatherForecasts.class, CITY_NAME, COUNTRY_CODE);
 
 		// Then
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		List<WeatherForecastView> forecastViewList = Arrays.asList(response.getBody());
-		assertThat(forecastViewList.size()).isEqualTo(40);
+		WeatherForecasts weatherForecasts = response.getBody();
+		assertThat(weatherForecasts.getForecastList().size()).isEqualTo(40);
 	}
 
 	/**
-	 * Test retrieving average forecast from Grenoble.
+	 * Test retrieving forecast from Grenoble.
 	 * 
 	 * @throws IOException
 	 * @throws ClientFailureException
 	 */
 	@Test
-	public void testGetWeatherAverageForecastGrenoble() throws ClientFailureException, IOException {
+	public void testGetWeatherForecastView() throws IOException, ClientFailureException {
 		// Given
-		String cityName = "Grenoble";
-		String countryCode = "FR";
-
-		mockForecastClient(cityName, countryCode);
-
-		double expected = 268.96245193481445;
+		mockForecastClient(CITY_NAME, COUNTRY_CODE);
 
 		// When
-		ResponseEntity<Double> response = restTemplate.getForEntity(
-				"/weather/averageForecast?city={city}&countryCode={countryCode}", Double.class, cityName, countryCode);
+		ResponseEntity<WeatherForecastView> response = restTemplate.getForEntity(
+				"/weather/forecast?city={city}&countryCode={countryCode}", WeatherForecastView.class, CITY_NAME, COUNTRY_CODE);
 
 		// Then
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isEqualTo(expected);
+		WeatherForecastView weatherForecastView = response.getBody();
+		assertThat(weatherForecastView.getTempAvg()).isEqualTo(268.7853698730469d);
 	}
 
 	private void mockForecastClient(String cityName, String countryCode) throws IOException, ClientFailureException {
