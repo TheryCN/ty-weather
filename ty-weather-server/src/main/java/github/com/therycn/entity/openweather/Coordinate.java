@@ -12,9 +12,9 @@ import lombok.Data;
 public class Coordinate {
 
 	/** coord.lat City geo location, latitude */
-	private long lat;
+	private double lat;
 
 	/** coord.lon City geo location, longitude */
-	private long lon;
+	private double lon;
 
 }
