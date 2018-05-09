@@ -3,7 +3,7 @@
   <div>Current weather on {{ currentWeather.name}} is {{ currentWeather.weather[0].description}}</div>
   <div class="ui-g">
     <div class="ui-g-12">{{ currentWeather.main.temp | number : '1.1-1' }}°C</div>
-    <div class="ui-g-6"><span class="icon-thermometer-empty"></span>{{ currentWeather.main.temp_min | number : '1.1-1' }}°C</div>
-    <div class="ui-g-6"><span class="icon-thermometer-full"></span>{{ currentWeather.main.temp_max | number : '1.1-1' }}°C</div>
+    <div class="ui-g-6"><span class="thermometer-icon icon-thermometer-empty"></span>{{ currentWeather.main.temp_min | number : '1.1-1' }}°C</div>
+    <div class="ui-g-6"><span class="thermometer-icon icon-thermometer-full"></span>{{ currentWeather.main.temp_max | number : '1.1-1' }}°C</div>
   </div>
 </div>

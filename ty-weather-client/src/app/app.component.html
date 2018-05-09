@@ -1,6 +1,11 @@
-<h1>{{title}}</h1>
+<!-- MainMenu -->
+<div class="header ui-g">
+  <img #img src="assets/rgb_mini_diamond.png" alt="Ty">
+  <app-calendar-update class="header-calendar-component"></app-calendar-update>
+</div>
 
-<app-calendar-update></app-calendar-update>
+<!-- CurrentWeather -->
 <app-current-weather></app-current-weather>
 
-<p-growl [(value)]="msgs"></p-growl>
+<!-- Global growl-->
+<p-growl></p-growl>
