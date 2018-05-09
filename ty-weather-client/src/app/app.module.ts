@@ -8,18 +8,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
-import { ForecastComponent } from './forecast/forecast.component';
-import { ForecastsComponent } from './forecasts/forecasts.component';
-import { ForecastService } from './forecast.service';
 import { CalendarUpdateComponent } from './calendar-update/calendar-update.component';
 import { CalendarService } from './calendar.service';
+import { CurrentWeatherComponent } from './current-weather/current-weather.component';
+import { WeatherService } from './weather.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ForecastComponent,
-    ForecastsComponent,
-    CalendarUpdateComponent
+    CalendarUpdateComponent,
+    CurrentWeatherComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +26,7 @@ import { CalendarService } from './calendar.service';
     ButtonModule,
     BrowserAnimationsModule
   ],
-  providers: [ForecastService, CalendarService, MessageService],
+  providers: [CalendarService, MessageService, WeatherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

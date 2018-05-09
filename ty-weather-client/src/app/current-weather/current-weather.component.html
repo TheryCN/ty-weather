@@ -1,0 +1,17 @@
+<ul>
+  <p-growl [(value)]="msgs"></p-growl>
+
+  <div class="ui-g-12 ui-md-6 ui-lg-4"></div>
+
+  <div *ngIf="currentWeather" class="ui-g-12 ui-md-6 ui-lg-4">
+    <div>Current weather on {{ currentWeather.name}} is {{ currentWeather.weather[0].description}}</div>
+
+    <div class="ui-g">
+      <div class="ui-g-12">{{ currentWeather.main.temp | number : '1.1-1' }}°C</div>
+      <div class="ui-g-6">{{ currentWeather.main.temp_min | number : '1.1-1' }}°C</div>
+      <div class="ui-g-6">{{ currentWeather.main.temp_max | number : '1.1-1' }}°C</div>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-md-6 ui-lg-4"></div>
+</ul>
