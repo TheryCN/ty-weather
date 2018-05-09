@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.WeatherForecasts;
 import github.com.therycn.exception.ClientFailureException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OpenWeatherMapClient {
 
+	@Getter
 	@Value("${app.id}")
 	private String appId;
 

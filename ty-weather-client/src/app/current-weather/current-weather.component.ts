@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
-import {Message} from 'primeng/components/common/api';
-
+import { Message } from 'primeng/components/common/api';
 import { WeatherService } from '../weather.service';
-import { CurrentWeather } from '../entity/currentWeather';
+import { MessageService } from 'primeng/components/common/messageservice';
 
-import OlMap from 'ol/map';
-import OlView from 'ol/view';
-import OlProj from 'ol/proj';
-import OlTileLayer from 'ol/layer/tile';
-import OlOSMSource from 'ol/source/OSM';
+import { CurrentWeather } from '../entity/currentWeather';
+import { WeatherApiConfig } from '../entity/weatherApiConfig';
+
+import Map from 'ol/map';
+import View from 'ol/view';
+import Proj from 'ol/proj';
+import TileLayer from 'ol/layer/tile';
+import OSMSource from 'ol/source/OSM';
+import XYZ from 'ol/source/XYZ';
 
 @Component({
   selector: 'app-current-weather',
@@ -19,55 +22,48 @@ import OlOSMSource from 'ol/source/OSM';
 })
 export class CurrentWeatherComponent implements OnInit {
 
+  apiConfig: WeatherApiConfig;
+
   currentWeather: CurrentWeather;
 
-  weatherClass:string;
+  map: Map;
 
-  msgs: Message[] = [];
+  view: View;
 
-  map: OlMap;
-
-  view: OlView;
-
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.setCurrentWeather();
+    this.initWeather();
   }
 
-  setCurrentWeather(): void {
-    this.weatherService.getCurrentWeather().subscribe(currentWeather => this.currentWeatherCallback(currentWeather));
+  initWeather(): void {
+    var self = this;
+    this.weatherService.getApiConfig().subscribe(apiConfig => {
+      this.apiConfig = apiConfig;
+      this.weatherService.getCurrentWeather().subscribe(currentWeather => this.currentWeatherCallback(currentWeather));
+    });
   }
 
   currentWeatherCallback(currentWeather): void {
     this.currentWeather = currentWeather;
-    this.msgs.push({severity:'info', summary:'Loading succed!', detail:'Current weather available'});
-    this.initWeatherIcon();
     this.initMap();
-  }
-
-  initWeatherIcon(): void {
-    switch(this.currentWeather.weather[0].main) {
-      case "Clouds":
-        this.weatherClass = "icon-cloudy";
-        break;
-      default:
-        this.weatherClass = "icon-sun";
-        break;
-    }
+    this.messageService.add({severity:'success', summary:'Loading succed!', detail:'Current weather available'});
   }
 
   initMap(): void {
-    this.view = new OlView({
-      center: OlProj.fromLonLat([this.currentWeather.coord.lon, this.currentWeather.coord.lat]),
-      zoom: 12,
+    this.view = new View({
+      center: Proj.fromLonLat([this.currentWeather.coord.lon, this.currentWeather.coord.lat]),
+      zoom: 8,
     });
 
-    this.map = new OlMap({
+    this.map = new Map({
       target: 'map',
       layers: [
-        new OlTileLayer({
-          source: new OlOSMSource()
+        new TileLayer({
+          source: new OSMSource()
+        }),
+        new TileLayer({
+          source: new XYZ({url:"https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={apiKey}".replace("{apiKey}", this.apiConfig.key)})
         })
       ],
       view: this.view

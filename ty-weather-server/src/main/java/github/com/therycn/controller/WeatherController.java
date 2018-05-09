@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import github.com.therycn.entity.WeatherApiConfig;
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.WeatherForecasts;
@@ -29,6 +30,16 @@ public class WeatherController {
 	 */
 	public WeatherController(WeatherService weatherService) {
 		this.weatherService = weatherService;
+	}
+
+	/**
+	 * Gets the API config (API key is used for Openlayers XYZ background).
+	 * 
+	 * @return the api config
+	 */
+	@RequestMapping(value = "/config")
+	public WeatherApiConfig getApiConfig() {
+		return weatherService.getApiConfig();
 	}
 
 	/**

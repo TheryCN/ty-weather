@@ -12,12 +12,14 @@ import { CalendarUpdateComponent } from './calendar-update/calendar-update.compo
 import { CalendarService } from './calendar.service';
 import { CurrentWeatherComponent } from './current-weather/current-weather.component';
 import { WeatherService } from './weather.service';
+import { CurrentWeatherDetailComponent } from './current-weather-detail/current-weather-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarUpdateComponent,
-    CurrentWeatherComponent
+    CurrentWeatherComponent,
+    CurrentWeatherDetailComponent
   ],
   imports: [
     BrowserModule,

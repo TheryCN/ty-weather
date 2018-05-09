@@ -2,6 +2,7 @@ package github.com.therycn.service.weather;
 
 import org.springframework.stereotype.Service;
 
+import github.com.therycn.entity.WeatherApiConfig;
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.WeatherForecasts;
@@ -14,6 +15,13 @@ import github.com.therycn.entity.openweather.WeatherForecasts;
  */
 @Service
 public interface WeatherService {
+
+	/**
+	 * Retrieve the API config.
+	 * 
+	 * @return the api config
+	 */
+	WeatherApiConfig getApiConfig();
 
 	/**
 	 * Gets the current weather for the given city & country.

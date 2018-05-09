@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import github.com.therycn.entity.TempAverager;
+import github.com.therycn.entity.WeatherApiConfig;
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.CurrentWeather;
 import github.com.therycn.entity.openweather.Forecast;
@@ -22,6 +23,16 @@ public class OpenWeatherMapServiceImpl implements WeatherService {
 
 	@Autowired
 	private OpenWeatherMapClient client;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see github.com.therycn.service.weather.WeatherService#getApiConfig()
+	 */
+	@Override
+	public WeatherApiConfig getApiConfig() {
+		return new WeatherApiConfig(client.getAppId());
+	}
 
 	/*
 	 * (non-Javadoc)
