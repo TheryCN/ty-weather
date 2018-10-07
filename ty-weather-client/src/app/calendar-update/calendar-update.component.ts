@@ -22,7 +22,8 @@ export class CalendarUpdateComponent implements OnInit {
     this.calendarService.updateWeatherCalendar().subscribe(data => {
         this.messageService.add({severity:'success', summary:'Weather calendar update success !'});
         this.isLoading = false;
-    })
+    },
+    err => window.location.href='/api/login')
   }
 
 }
