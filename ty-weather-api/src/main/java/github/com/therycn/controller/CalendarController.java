@@ -20,7 +20,7 @@ import github.com.therycn.service.calendar.WeatherUpdateService;
  *
  */
 @RestController
-@RequestMapping("/calendar")
+@RequestMapping("/api/calendar")
 public class CalendarController {
 
 	private CalendarService calendarService;

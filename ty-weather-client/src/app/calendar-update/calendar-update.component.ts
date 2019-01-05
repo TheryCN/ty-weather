@@ -23,7 +23,7 @@ export class CalendarUpdateComponent implements OnInit {
         this.messageService.add({severity:'success', summary:'Weather calendar update success !'});
         this.isLoading = false;
     },
-    err => window.location.href='/api/login')
+    err => window.location.href='/login')
   }
 
 }

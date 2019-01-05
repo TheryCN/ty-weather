@@ -8,7 +8,7 @@ FROM openjdk:7-alpine
 RUN apk add --no-cache openjdk8
 
 ARG appVersion=0.0.1-SNAPSHOT
-ADD target/ty-weather-server-${appVersion}.jar /opt/ty-weather/lib/ty-weather-server.jar
+ADD target/ty-weather.jar /opt/ty-weather/lib/ty-weather.jar
 
-CMD ["/usr/bin/java","-jar", "/opt/ty-weather/lib/ty-weather-server.jar"]
+CMD ["/usr/bin/java","-jar", "/opt/ty-weather/lib/ty-weather.jar"]
 EXPOSE 8080

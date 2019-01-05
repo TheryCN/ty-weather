@@ -1,8 +1,8 @@
 package github.com.therycn.service.calendar;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,12 +17,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.core.IsEqual;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
@@ -56,6 +58,11 @@ public class WeatherUpdateServiceTest {
 
 	@InjectMocks
 	private WeatherUpdateService updateServie;
+
+	@Before
+	public void init() {
+		ReflectionTestUtils.setField(updateServie, "weatherCalendarSummary", "");
+	}
 
 	/**
 	 * Test update with a new weather calendar.
@@ -96,13 +103,13 @@ public class WeatherUpdateServiceTest {
 		when(calendarService.findCalendarIdBySummary(anyString())).thenReturn(WEATHER_CALENDAR_ID);
 
 		Event event = new Event();
+		event.setId("");
 		event.setStart(new EventDateTime());
 		event.getStart().setDateTime(new DateTime(Date.from(instant)));
 		when(calendarService.getUpcomingEvents(anyString())).thenReturn(Arrays.asList(event));
 
-		// Returns the second parameter
-		when(calendarService.addEvent(anyString(), any())).thenAnswer(i -> i.getArguments()[1]);
-		when(calendarService.updateEvent(anyString(), anyString(), any())).thenAnswer(i -> i.getArguments()[1]);
+		// Returns the second third
+		when(calendarService.updateEvent(anyString(), anyString(), any())).thenAnswer(i -> i.getArguments()[2]);
 
 		// When
 		List<Event> eventList = updateServie.update(CITY, COUNTRYCODE);

@@ -17,7 +17,7 @@ import github.com.therycn.service.weather.WeatherService;
  *
  */
 @RestController
-@RequestMapping("/weather")
+@RequestMapping("/api/weather")
 public class WeatherController {
 
 	private WeatherService weatherService;

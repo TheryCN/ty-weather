@@ -1,0 +1,10 @@
+[Unit]
+Description=Weather Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/home/pi/Documents/GitHub/ty-weather/ty-weather-api/target/ty-weather.jar
+
+[Install]
+WantedBy=multi-user.target

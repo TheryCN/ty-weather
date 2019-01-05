@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import github.com.therycn.entity.WeatherForecastView;
 import github.com.therycn.entity.openweather.Forecast;
@@ -51,8 +51,6 @@ public class OpenWeatherMapServiceImplTest {
 		when(main.getPressure()).thenReturn(800f);
 
 		Forecast forecast = mock(Forecast.class);
-		// UTC Wed Dec 27 2017 18:40:00
-		when(forecast.getTime()).thenReturn(1514400000l);
 		when(forecast.getMain()).thenReturn(main);
 
 		WeatherForecasts clientResponse = mock(WeatherForecasts.class);
